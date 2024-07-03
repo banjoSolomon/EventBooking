@@ -69,6 +69,15 @@ public class OrganizerTest {
 
     }
 
+    @Test
+    public void testToViewEventAttendees(){
+        ViewEventAttendeesRequest viewEventAttendeesRequest = new ViewEventAttendeesRequest();
+        viewEventAttendeesRequest.setEventId(10L);
+        ViewEventAttendeesResponse viewEventAttendeesResponse = organizationService.viewEventAttendees(viewEventAttendeesRequest);
+        assertNotNull(viewEventAttendeesResponse);
+        assertEquals(3, viewEventAttendeesResponse.getAttendees().size());
+    }
+
 
 }
 

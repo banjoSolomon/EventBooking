@@ -13,4 +13,7 @@ public interface OrganizerService {
     CreateGuestListResponse createGuestList(CreateGuestListRequest createGuestListRequest);
 
     CreateDiscountResponse createDiscount(CreateDiscountRequest createDiscountRequest);
+
+    ViewEventAttendeesResponse viewEventAttendees(ViewEventAttendeesRequest viewEventAttendeesRequest);
+
 }

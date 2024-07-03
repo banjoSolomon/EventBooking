@@ -3,19 +3,14 @@ package com.solo.Event.Booking.App.services;
 import com.solo.Event.Booking.App.dtos.requests.*;
 import com.solo.Event.Booking.App.dtos.response.*;
 import com.solo.Event.Booking.App.exceptions.EventNotFoundException;
-import com.solo.Event.Booking.App.models.Event;
-import com.solo.Event.Booking.App.models.Guest;
-import com.solo.Event.Booking.App.models.Organizer;
-import com.solo.Event.Booking.App.models.Ticket;
-import com.solo.Event.Booking.App.repository.EventRepository;
-import com.solo.Event.Booking.App.repository.GuestRepository;
-import com.solo.Event.Booking.App.repository.OrganizerRepository;
-import com.solo.Event.Booking.App.repository.TicketRepository;
+import com.solo.Event.Booking.App.models.*;
+import com.solo.Event.Booking.App.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,13 +20,15 @@ public class OrganizerImpl implements OrganizerService {
     private final EventRepository eventRepository;
     private final TicketRepository ticketRepository;
     private final GuestRepository guestRepository;
+    private final AttendeesRepository attendeesRepository;
 
-    public OrganizerImpl(ModelMapper modelMapper, OrganizerRepository organizerRepository, EventRepository eventRepository, TicketRepository ticketRepository, GuestRepository guestRepository) {
+    public OrganizerImpl(ModelMapper modelMapper, OrganizerRepository organizerRepository, EventRepository eventRepository, TicketRepository ticketRepository, GuestRepository guestRepository, AttendeesRepository attendeesRepository) {
         this.modelMapper = modelMapper;
         this.organizerRepository = organizerRepository;
         this.eventRepository = eventRepository;
         this.ticketRepository = ticketRepository;
         this.guestRepository = guestRepository;
+        this.attendeesRepository = attendeesRepository;
     }
 
     @Override
@@ -92,6 +89,16 @@ public class OrganizerImpl implements OrganizerService {
         CreateDiscountResponse response = new CreateDiscountResponse();
         response.setMessage("Discount created successfully");
         return response;
+    }
+
+    @Override
+    public ViewEventAttendeesResponse viewEventAttendees(ViewEventAttendeesRequest viewEventAttendeesRequest) {
+        List<Attendees> attendees = attendeesRepository.findByEventId(viewEventAttendeesRequest.getEventId());
+        ViewEventAttendeesResponse response = new ViewEventAttendeesResponse();
+        response.setAttendees(attendees);
+
+        return response;
+
     }
 
 
