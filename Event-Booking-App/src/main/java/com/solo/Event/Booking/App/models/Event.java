@@ -40,6 +40,8 @@ public class Event {
     private Organizer organizer;
     @OneToOne
     private Ticket ticket;
+    @ManyToOne
+    private Guest guest;
     @OneToMany
     private List<Attendees> attendees;
 

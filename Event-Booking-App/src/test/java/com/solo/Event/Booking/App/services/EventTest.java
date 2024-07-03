@@ -36,12 +36,12 @@ public class EventTest {
 
     }
     @Test
-    public void testToViewAllTicketForAnOrganizer(){
+    public void testToViewAllEventForAnOrganizer(){
         ViewAllEventRequest viewAllEventRequest = new ViewAllEventRequest();
         viewAllEventRequest.setOrganizerId(6L);
         ViewAllResponse viewAllResponse = eventService.viewAllEvent(viewAllEventRequest);
         assertNotNull(viewAllResponse);
-        assertTrue(viewAllResponse.getEvents().size() > 0);
+        assertEquals(3, viewAllResponse.getEvents().size());
 
 
     }

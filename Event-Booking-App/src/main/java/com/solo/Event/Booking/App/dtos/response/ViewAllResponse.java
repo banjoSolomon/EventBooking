@@ -4,9 +4,10 @@ import com.solo.Event.Booking.App.models.EventForUser;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
 public class ViewAllResponse {
-    private List<EventForUser> users;
+    private List<EventForUser> events ;
 }

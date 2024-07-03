@@ -1,9 +1,11 @@
 package com.solo.Event.Booking.App.services;
 
 import com.solo.Event.Booking.App.dtos.requests.AddTicketToEventRequest;
+import com.solo.Event.Booking.App.dtos.requests.CreateGuestListRequest;
 import com.solo.Event.Booking.App.dtos.requests.RegisterRequest;
 import com.solo.Event.Booking.App.dtos.requests.ViewAllEventRequest;
 import com.solo.Event.Booking.App.dtos.response.AddTicketResponse;
+import com.solo.Event.Booking.App.dtos.response.CreateGuestListResponse;
 import com.solo.Event.Booking.App.dtos.response.RegisterResponse;
 
 import com.solo.Event.Booking.App.dtos.response.ViewAllResponse;
@@ -50,6 +52,16 @@ public class OrganizerTest {
         assertEquals(ticket.getPrice(), ticketResponse.getPrice());
 
 
+    }
+
+    @Test
+    public void testToCreateGuestList(){
+        CreateGuestListRequest createGuestListRequest = new CreateGuestListRequest();
+        createGuestListRequest.setEventId(10L);
+        createGuestListRequest.setGuestName("Guest1, Guest2, Guest3");
+        CreateGuestListResponse createGuestListResponse = organizationService.createGuestList(createGuestListRequest);
+        assertNotNull(createGuestListResponse);
+        assertEquals("Guest list created successfully", createGuestListResponse.getMessage());
     }
 
 
