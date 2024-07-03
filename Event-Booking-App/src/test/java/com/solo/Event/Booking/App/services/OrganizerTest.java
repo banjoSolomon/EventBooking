@@ -1,14 +1,8 @@
 package com.solo.Event.Booking.App.services;
 
-import com.solo.Event.Booking.App.dtos.requests.AddTicketToEventRequest;
-import com.solo.Event.Booking.App.dtos.requests.CreateGuestListRequest;
-import com.solo.Event.Booking.App.dtos.requests.RegisterRequest;
-import com.solo.Event.Booking.App.dtos.requests.ViewAllEventRequest;
-import com.solo.Event.Booking.App.dtos.response.AddTicketResponse;
-import com.solo.Event.Booking.App.dtos.response.CreateGuestListResponse;
-import com.solo.Event.Booking.App.dtos.response.RegisterResponse;
+import com.solo.Event.Booking.App.dtos.requests.*;
+import com.solo.Event.Booking.App.dtos.response.*;
 
-import com.solo.Event.Booking.App.dtos.response.ViewAllResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +56,17 @@ public class OrganizerTest {
         CreateGuestListResponse createGuestListResponse = organizationService.createGuestList(createGuestListRequest);
         assertNotNull(createGuestListResponse);
         assertEquals("Guest list created successfully", createGuestListResponse.getMessage());
+    }
+
+    @Test
+    public void testToCreateDiscountForTicket(){
+        CreateDiscountRequest createDiscountRequest = new CreateDiscountRequest();
+        createDiscountRequest.setEventId(10L);
+        createDiscountRequest.setDiscountPercentage(BigDecimal.valueOf(20.1));
+        CreateDiscountResponse createDiscountResponse = organizationService.createDiscount(createDiscountRequest);
+        assertNotNull(createDiscountResponse);
+        assertEquals("Discount created successfully", createDiscountResponse.getMessage());
+
     }
 
 

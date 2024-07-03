@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -42,6 +43,7 @@ public class Event {
     private Ticket ticket;
     @ManyToOne
     private Guest guest;
+    private BigDecimal discountPercentage;
     @OneToMany
     private List<Attendees> attendees;
 
