@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,6 +64,7 @@ public class OrganizerImpl implements OrganizerService {
     public CreateGuestListResponse createGuestList(CreateGuestListRequest createGuestListRequest) {
         Event event = eventRepository.findById(createGuestListRequest.getEventId())
                 .orElseThrow(() -> new EventNotFoundException("Event not found"));
+
         String[] guestNamesArray = createGuestListRequest.getGuestName().split(",\\s*");
         List<Guest> guests = Arrays.stream(guestNamesArray)
                 .map(name -> {
@@ -73,9 +73,13 @@ public class OrganizerImpl implements OrganizerService {
                     guest.setEvent(event);
                     return guest;
                 }).collect(Collectors.toList());
+
         guestRepository.saveAll(guests);
+
         CreateGuestListResponse response = new CreateGuestListResponse();
+        response.setGuests(guests);
         response.setMessage("Guest list created successfully");
+
         return response;
 
     }
@@ -93,12 +97,19 @@ public class OrganizerImpl implements OrganizerService {
 
     @Override
     public ViewEventAttendeesResponse viewEventAttendees(ViewEventAttendeesRequest viewEventAttendeesRequest) {
+        validateAttendees(viewEventAttendeesRequest);
         List<Attendees> attendees = attendeesRepository.findByEventId(viewEventAttendeesRequest.getEventId());
         ViewEventAttendeesResponse response = new ViewEventAttendeesResponse();
         response.setAttendees(attendees);
-
         return response;
 
+    }
+
+    private void validateAttendees(ViewEventAttendeesRequest viewEventAttendeesRequest) {
+        Event event = eventRepository.findById(viewEventAttendeesRequest.getEventId()).orElse(null);
+        if (event == null) {
+            throw new EventNotFoundException("Event not found");
+        }
     }
 
 

@@ -3,6 +3,10 @@ package com.solo.Event.Booking.App.services;
 import com.solo.Event.Booking.App.dtos.requests.*;
 import com.solo.Event.Booking.App.dtos.response.*;
 
+import com.solo.Event.Booking.App.models.Attendees;
+import com.solo.Event.Booking.App.models.Event;
+import com.solo.Event.Booking.App.repository.AttendeesRepository;
+import com.solo.Event.Booking.App.repository.EventRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 
 
 import static com.solo.Event.Booking.App.models.Category.VIP;
@@ -21,6 +26,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OrganizerTest {
     @Autowired
     OrganizerService organizationService;
+    @Autowired
+    AttendeesRepository attendeesRepository;
+    @Autowired
+    EventRepository eventRepository;
 
     @Test
     public void testOrganizerCanRegister() {
@@ -56,6 +65,7 @@ public class OrganizerTest {
         CreateGuestListResponse createGuestListResponse = organizationService.createGuestList(createGuestListRequest);
         assertNotNull(createGuestListResponse);
         assertEquals("Guest list created successfully", createGuestListResponse.getMessage());
+        assertEquals(3, createGuestListResponse.getGuests().size());
     }
 
     @Test
@@ -73,6 +83,25 @@ public class OrganizerTest {
     public void testToViewEventAttendees(){
         ViewEventAttendeesRequest viewEventAttendeesRequest = new ViewEventAttendeesRequest();
         viewEventAttendeesRequest.setEventId(10L);
+        Event event = new Event();
+        event.setId(10L);
+        event.setName("Event 1");
+        event.setDescription("Description 1");
+        event.setStartTime(LocalTime.of(10, 0));
+        event.setLocation("Location 1");
+        eventRepository.save(event);
+        Attendees attendee1 = new Attendees();
+        attendee1.setEvent(event);
+        attendee1.setName("Attendee 1");
+        attendeesRepository.save(attendee1);
+        Attendees attendee2 = new Attendees();
+        attendee2.setEvent(event);
+        attendee2.setName("Attendee 2");
+        attendeesRepository.save(attendee2);
+        Attendees attendee3 = new Attendees();
+        attendee3.setEvent(event);
+        attendee3.setName("Attendee 3");
+        attendeesRepository.save(attendee3);
         ViewEventAttendeesResponse viewEventAttendeesResponse = organizationService.viewEventAttendees(viewEventAttendeesRequest);
         assertNotNull(viewEventAttendeesResponse);
         assertEquals(3, viewEventAttendeesResponse.getAttendees().size());

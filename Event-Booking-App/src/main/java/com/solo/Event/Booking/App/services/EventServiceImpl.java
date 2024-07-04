@@ -48,12 +48,15 @@ public class EventServiceImpl implements  EventService{
 
     @Override
     public ViewAllResponse viewAllEvent(ViewAllEventRequest viewAllEventRequest) {
-        Optional<Event> events = eventRepository.findById(viewAllEventRequest.getOrganizerId());
+        List<Event> events = eventRepository.findByOrganizerId(viewAllEventRequest.getOrganizerId());
+
         List<EventForUser> eventResponses = events.stream()
                 .map(event -> modelMapper.map(event, EventForUser.class))
                 .collect(Collectors.toList());
+
         ViewAllResponse response = new ViewAllResponse();
         response.setEvents(eventResponses);
+
         return response;
 
     }
