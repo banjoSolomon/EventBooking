@@ -83,6 +83,14 @@ public class OrganizerTest {
     public void testToViewEventAttendees(){
         ViewEventAttendeesRequest viewEventAttendeesRequest = new ViewEventAttendeesRequest();
         viewEventAttendeesRequest.setEventId(10L);
+        Attendees attendee3 = createEvent();
+        attendeesRepository.save(attendee3);
+        ViewEventAttendeesResponse viewEventAttendeesResponse = organizationService.viewEventAttendees(viewEventAttendeesRequest);
+        assertNotNull(viewEventAttendeesResponse);
+        assertEquals(3, viewEventAttendeesResponse.getAttendees().size());
+    }
+
+    private Attendees createEvent() {
         Event event = new Event();
         event.setId(10L);
         event.setName("Event 1");
@@ -101,10 +109,7 @@ public class OrganizerTest {
         Attendees attendee3 = new Attendees();
         attendee3.setEvent(event);
         attendee3.setName("Attendee 3");
-        attendeesRepository.save(attendee3);
-        ViewEventAttendeesResponse viewEventAttendeesResponse = organizationService.viewEventAttendees(viewEventAttendeesRequest);
-        assertNotNull(viewEventAttendeesResponse);
-        assertEquals(3, viewEventAttendeesResponse.getAttendees().size());
+        return attendee3;
     }
 
 
